@@ -1,0 +1,27 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-searchbar placeholder="Buscar" [(ngModel)]="textFilter" (ionChange)="filterElements($event)"></ion-searchbar>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-progress-bar *ngIf="progressBar" type="indeterminate"></ion-progress-bar>
+  <ion-text *ngIf="elements.length === 0 && !progressBar" color="primary" class="ion-text-center">
+    <h2>Sin resultados</h2>
+  </ion-text>
+  <ion-card *ngFor="let element of elements">
+    <img src="{{element.photo | noimage}}" (error)="handleImgError($event)" />
+    <ion-card-header>
+      <ion-card-title><ion-text color="primary">Lorem Picsum #{{element.id}}</ion-text></ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      {{element.text}}
+    </ion-card-content>
+  </ion-card>
+  <ion-infinite-scroll threshold="100px" (ionInfinite)="paginateElements($event)">
+    <ion-infinite-scroll-content
+      loadingSpinner="bubbles"
+      loadingText="Cargando mas elementos...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>
